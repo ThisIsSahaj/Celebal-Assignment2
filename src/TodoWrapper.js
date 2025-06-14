@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid'
 import EditTodo from './EditTodo';
 import TodoFilter from './TodoFilter';
 import AddTodoModal from './addTodoModal';
+import UpdateTodoModal from './updateTodoModal';
 
 uuidv4();
 
@@ -13,12 +14,23 @@ const TodoWrapper = () => {
     const [todos, setTodos] = useState(localStorage.getItem('todos') ? JSON.parse(localStorage.getItem('todos')) : [])
 
     const [filter, setFilter] = useState('')
-    const [date, setDate] = useState('')
+    const [date, setDate] = useState(() => {
+        const today = new Date();
+        return today.toISOString().split('T')[0]; // default date as current in format 'YYYY-MM-DD'
+    });
+
 
     const [isOpen, setIsOpen] = useState(false)
 
+    const [updateModalIsOpen, setUpdateModalIsOpen] = useState(false)
+
     const openTodoModal = () => setIsOpen(true);
     const closeTodoModal = () => setIsOpen(false);
+
+    const openUpdateModal = () => setUpdateModalIsOpen(true);
+    const closeUpdateModal = () => setUpdateModalIsOpen(false);
+
+
 
 
     // useEffect(() => {
@@ -27,11 +39,16 @@ const TodoWrapper = () => {
     // }, [])
 
 
+
     useEffect(() => {
-        localStorage.setItem('todos', JSON.stringify(todos));
+
+        // to exclude isEditing from saving to local storage
+        const todosToStore = todos.map(({ isEditing, ...rest }) => rest);
+        localStorage.setItem('todos', JSON.stringify(todosToStore));
+
     }, [todos]) // update local storage everytime todos list is updated
 
-    const addTodo = (newTodo) => {
+    const addTodo = (newTodo, todoTime) => {
         setTodos(
             [...todos,
             {
@@ -40,6 +57,7 @@ const TodoWrapper = () => {
                 isCompleted: false,
                 isEditing: false,
                 todoDate: date,
+                time: todoTime,
             }
             ]
         )
@@ -68,61 +86,96 @@ const TodoWrapper = () => {
             todo.id === todoId ? { ...todo, isEditing: !todo.isEditing } : todo
         )))
 
+        openUpdateModal();
+
+
     }
 
-    const updateTodo = (updatedText, todoId) => {
+    const updateTodo = (updatedText, todoId, todoTime, todoDate) => {
 
         setTodos(todos.map((todo) => (
-            todo.id === todoId ? { ...todo, text: updatedText, isEditing: !todo.isEditing } : todo
+            todo.id === todoId ? {
+                ...todo,
+                text: updatedText,
+                time: todoTime,
+                todoDate: todoDate,
+                isEditing: !todo.isEditing
+            } : todo
         )))
+        closeUpdateModal()
 
     }
 
 
 
     return (
-        <div>
-            todo wrapper
-            <TodoForm addTodo={addTodo} />
+        <div className='todoWrapper'>
 
-            <TodoFilter setFilter={setFilter} setDate={setDate} />
+            {/* <TodoForm addTodo={addTodo} /> */}
 
-            {
-                todos.filter((todo) => {
-                    if (todo.todoDate == date) return todo;
-                })
+            <h1>Todo List</h1>
 
-                    .filter((todo) => {
-                        if (filter === "Completed") return todo.isCompleted;
-                        if (filter === "Incomplete") return !todo.isCompleted;
-                        return true;
+            <TodoFilter setFilter={setFilter} date={date} setDate={setDate} />
+
+            <div style={{ marginTop: "10px", display: "flex", justifyContent: "end" }}>
+                <button onClick={openTodoModal} className='addBtn'>
+                    + Add Todo
+                </button>
+            </div>
+
+
+
+            <div className='todoList'>
+
+                {
+                    todos.filter((todo) => {
+                        if (todo.todoDate == date) return todo;
                     })
-                    .map((todo, index) => (
 
-                        todo.isEditing ? (
-                            <EditTodo updateTodo={updateTodo} todo={todo} />
+                        .filter((todo) => {
+                            if (filter === "Completed") return todo.isCompleted;
+                            if (filter === "Incomplete") return !todo.isCompleted;
+                            return true;
+                        })
+                        .map((todo, index) => (
 
-                        ) : (
+                            todo.isEditing ? (
+
+                                updateModalIsOpen && <UpdateTodoModal updateTodo={updateTodo} todo={todo} deleteTodo={deleteTodo} closeUpdateModal={closeUpdateModal} />
+                                // <EditTodo  updateTodo={updateTodo} todo={todo} />
 
 
-                            <Todo todo={todo} key={index}
-                                toggleComplete={toggleComplete}
-                                deleteTodo={deleteTodo}
-                                editTodo={editTodo}
-                            />
-                        )
+                            ) : (
 
-                    ))
-            }
 
-            <button onClick={openTodoModal}>
-                Add Todo
-            </button>
+                                <Todo todo={todo} key={index}
+                                    toggleComplete={toggleComplete}
+                                    deleteTodo={deleteTodo}
+                                    editTodo={editTodo}
+                                />
+                            )
+
+                        ))
+                }
+            </div>
+
+
 
             {
-                isOpen && <AddTodoModal closeTodoModal={closeTodoModal}/>  
+                isOpen && <div className='overlay'></div>
             }
-            
+            {updateModalIsOpen && <div className='overlay'></div>
+            }
+            {
+                isOpen &&
+                <AddTodoModal
+                    closeTodoModal={closeTodoModal}
+                    addTodo={addTodo}
+                    date={date}
+                    setDate={setDate}
+                />
+            }
+
 
         </div>
     )

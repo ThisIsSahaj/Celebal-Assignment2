@@ -1,25 +1,221 @@
 .App {
-  text-align: center;
+  /* text-align: center; */
+  /* border: 2px solid red; */
+  padding: 6px;
+  font-family: sans-serif;
+
 }
 
-.completed{
-  text-decoration: line-through;
-  color: red;
+.todoWrapper {
+  /* border: 2px solid blue; */
+  height: 90vh;
+  /* width: 100vw; */
+  padding: 4px;
 }
 
-.hidden{
-  display: none;
+.todoFilter {
+  /* border: 2px solid black; */
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  padding: 10px 20px;
 }
-.todoModal{
+
+
+.todoList {
+  /* border: 2px solid black; */
+  height: 75vh;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.todoModal {
   position: absolute;
-  height: 400px;
-  width: 500px;
-  border: 2px solid black;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 20px;
+  z-index: 1000;
+}
+
+.modalContent {
+  width: 100%;
+  max-width: 400px;
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+
+.modalTitle {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.textInput {
+  width: 100%;
+  padding: 15px;
+  background-color: #eff3f4;
+  border: none;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  box-sizing: border-box;
+  margin-bottom: 10px;
+  font-size: medium;
+}
+
+select {
+  width: 25%;
+  background-color: #eff3f4;
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+  font-size: medium;
+}
+
+.dateInput {
+  width: 50%;
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+  font-size: medium;
+  background-color: #eff3f4;
+
+}
+
+.timeInput {
+  width: 50%;
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+  font-size: medium;
+  background-color: #eff3f4;
+
+}
+
+.datetimeRow {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.dateInput,
+.timeInput {
+  flex: 1;
+}
+
+.buttonsDiv {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn {
+  flex: 1;
+  padding: 12px;
+  font-size: 14px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+  margin: 0 4px;
+}
+
+.cancelBtn {
+  background-color: #ffffff;
+  border: 2px solid #e75a75;
+  color: #e75a75;
+}
+
+.createBtn {
+  background-color: #596aff;
+  border: 2px solid #596aff;
+  color: white;
+}
+
+
+
+
+
+
+
+
+
+.addBtn {
+  padding: 16px 24px;
+  border: none;
+  border-radius: 10px;
+  background-color: #596aff;
+  color: white;
+  cursor: pointer;
+  font: bold 16px Arial;
+  position: absolute;
+  bottom: 70px;
+  right: 30px;
+}
+
+.todoCard {
+  background-color: #e75a75;
+  color: white;
+  width: 270px;
+  height: 100px;
+  border-radius: 20px;
+  margin: 20px;
+  cursor: pointer;
+}
+
+.todoContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 20px;
+}
+
+.todoTitle {
+  font-weight: 600;
+  font-size: 18px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.todoTime {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+
+.completed {
+  /* text-decoration: line-through; */
+  background-color: gray;
 }
