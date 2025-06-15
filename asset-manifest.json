@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/Celebal-Assignment2/static/css/main.22f2e7e5.css",
+    "main.js": "/Celebal-Assignment2/static/js/main.0d220bbf.js",
+    "index.html": "/Celebal-Assignment2/index.html",
+    "main.22f2e7e5.css.map": "/Celebal-Assignment2/static/css/main.22f2e7e5.css.map",
+    "main.0d220bbf.js.map": "/Celebal-Assignment2/static/js/main.0d220bbf.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.22f2e7e5.css",
+    "static/js/main.0d220bbf.js"
+  ]
+}
