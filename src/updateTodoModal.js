@@ -1,3 +1,4 @@
+import { X } from 'lucide-react';
 import React, { useState } from 'react'
 
 const UpdateTodoModal = ({ updateTodo, todo, deleteTodo, closeUpdateModal }) => {
@@ -22,7 +23,13 @@ const UpdateTodoModal = ({ updateTodo, todo, deleteTodo, closeUpdateModal }) => 
             <form onSubmit={handleSubmit} className="todoModal">
 
                 <div className='modalContent'>
+
+                    <div className='modalHeader'>
                     <h2 className="modalTitle">Update ToDo</h2>
+                    <button className='modalClose' onClick={() => closeUpdateModal}>
+                    <X  height={22} width={22} />
+                    </button>
+                    </div>
 
                     <label className="label">Title</label>
                     <input
@@ -30,6 +37,7 @@ const UpdateTodoModal = ({ updateTodo, todo, deleteTodo, closeUpdateModal }) => 
                         value={value}
                         onChange={(e) => setValue(e.target.value)}
                         className='textInput'
+                        required
                     />
 
                     <label className="label">Date & Time</label>
@@ -45,7 +53,6 @@ const UpdateTodoModal = ({ updateTodo, todo, deleteTodo, closeUpdateModal }) => 
                         <button className='btn cancelBtn' style={{backgroundColor: "#e75a75", color:"white"}} onClick={() => deleteTodo(todo.id)}>Delete</button>
                         <button type='submit' className='btn createBtn'>Update</button>
                     </div>
-                        <button className='btn cancelBtn' onClick={() => closeUpdateModal}>Close</button>
 
                 </div>
             </form>

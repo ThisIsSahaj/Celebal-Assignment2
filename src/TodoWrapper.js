@@ -78,6 +78,8 @@ const TodoWrapper = () => {
         setTodos(todos.filter((todo) => (
             todo.id != todoId
         )))
+
+        closeUpdateModal();
     }
 
     const editTodo = (todoId) => {
@@ -104,6 +106,11 @@ const TodoWrapper = () => {
         )))
         closeUpdateModal()
 
+    }
+
+    const closeModal = () => {
+        isOpen && setIsOpen(false);
+        // setUpdateModalIsOpen(false);
     }
 
 
@@ -162,10 +169,9 @@ const TodoWrapper = () => {
 
 
             {
-                isOpen && <div className='overlay'></div>
+                (isOpen || updateModalIsOpen) && <div className='overlay' onClick={closeModal}></div>
             }
-            {updateModalIsOpen && <div className='overlay'></div>
-            }
+          
             {
                 isOpen &&
                 <AddTodoModal
